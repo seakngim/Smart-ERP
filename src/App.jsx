@@ -20,7 +20,7 @@ const App = () => {
       <NavbarComponent />
 
       {/* App */}
-      <section className="mx-auto grid grid-cols-6 gap-6 justify-center items-center py-20 sm:w-10/12 lg:w-6/12">
+      <section className="mx-auto grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-y-6 lg:gap-6 xl:gap-x-0 py-20 sm:w-10/12 lg:w-8/12 xl:w-6/12 2xl:w-5/12">
         <AppItem
           title="Accounting"
           imageUrl={accountingImg}
