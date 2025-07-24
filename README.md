@@ -20,21 +20,14 @@ Make sure you have installed:
 - Node.js (v16 or above)
 - npm or yarn
 
-#### Installation
-
-1. **Clone the repository:**
-
-```bash
-git clone https://github.com/your-username/smarterp-login.git
-cd smarterp-login
 
 
-##### 📁 Project Structure
+#### 📁 Project Structure
 
 Below is the structure relevant to the login flow when a user signs in with username and password:
 
 
-###### 🔁 Login Call Flow
+##### 🔁 Login Call Flow
 
 1. **User Input**:  
    On `LoginForm.jsx`, the user fills in `company`, `username`, and `password`.
@@ -45,3 +38,11 @@ Below is the structure relevant to the login flow when a user signs in with user
 3. **Simulated Authentication**:
    ```js
    if (form.username === "admin@smarterp.com" && form.password === "password123")
+
+###### Installation
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/your-username/smarterp-login.git
+cd smarterp-login
