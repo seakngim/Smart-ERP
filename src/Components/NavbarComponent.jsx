@@ -1,6 +1,9 @@
 import { LuChevronRight, LuClock, LuCog, LuMessagesSquare } from "react-icons/lu";
+import { useAuth } from "../context/AuthContext";
 
 const NavbarComponent = () => {
+    const { company } = useAuth();
+
     return (
 
         <nav className="flex items-center justify-between p-2">
@@ -10,9 +13,9 @@ const NavbarComponent = () => {
             <section className="flex gap-2 items-center">
                 <LuMessagesSquare />
                 <LuClock />
-                <p>My Company (Phnom Pennh)</p>
+                <p>{company || "My Company"}</p>
                 <LuCog />
-                
+
                 {/* Avatar */}
                 <img
                     src="https://i.pravatar.cc/40"
