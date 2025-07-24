@@ -1,12 +1,47 @@
-# React + Vite
+# SmartERP React Login App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple React-based login system for a SmartERP application with company selection and a home dashboard. The project simulates authentication and navigates to a home page with ERP application modules after a successful login.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Company dropdown selector
+- Input validation (company, username, password)
+- Inline error messages
+- Global company context
+- Simulated login with hardcoded credentials
+- Dashboard (Home page) with ERP modules
+- Responsive and clean UI using TailwindCSS
+- Background particles effect
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Make sure you have installed:
+
+- Node.js (v16 or above)
+- npm or yarn
+
+#### Installation
+
+1. **Clone the repository:**
+
+```bash
+git clone https://github.com/your-username/smarterp-login.git
+cd smarterp-login
+
+
+##### 📁 Project Structure
+
+Below is the structure relevant to the login flow when a user signs in with username and password:
+
+
+###### 🔁 Login Call Flow
+
+1. **User Input**:  
+   On `LoginForm.jsx`, the user fills in `company`, `username`, and `password`.
+
+2. **Validation**:  
+   `validateForm()` ensures all fields are filled.
+
+3. **Simulated Authentication**:
+   ```js
+   if (form.username === "admin@smarterp.com" && form.password === "password123")
