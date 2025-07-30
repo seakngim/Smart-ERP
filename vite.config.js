@@ -10,4 +10,16 @@ export default defineConfig({
   optimizeDeps: {
     include: ["tsparticles-engine", "tsparticles-slim", "react-tsparticles"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ['react', 'react-dom'],
+          recharts: ['recharts'],
+          mui: ['@mui/material', '@emotion/react', '@emotion/styled'],
+          icons: ['@mui/icons-material'],
+        },
+      },
+    },
+  },
 })
