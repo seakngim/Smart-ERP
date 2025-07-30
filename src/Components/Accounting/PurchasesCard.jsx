@@ -31,7 +31,7 @@ const PurchasesCard = () => {
                     <p >Purchases@tt-erp.odoo.com</p>
                     <div className="flex gap-2">
                         <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90" >Upload</button>
-                        <button className="bg-gray-300 px-3 py-1.5 rounded-md text-black hover:bg-primary/90" >New</button>
+                        <button className="bg-gray-300 px-3 py-1.5 rounded-md text-black hover:bg-gray-200" >New</button>
                     </div>
                 </div>
                 <div className="mt-8">

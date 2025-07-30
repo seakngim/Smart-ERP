@@ -173,12 +173,12 @@ const NavbarComponentAC = () => {
                         <span className="text-sm font-semibold hover:text-gray-600">Accounting</span>
                     </Link>
 
-                    <nav className="hidden lg:flex gap-6 text-sm py-2">
-                        <Link to="/dashboard-accounting" className="hover:text-primary">Dashboard</Link>
-                        <Link to="/budgets" className="hover:text-primary">Budgets</Link>
+                    <nav className="hidden lg:flex text-sm py-2">
+                        <Link to="/dashboard-accounting" className="hover:bg-gray-200 px-3 py-1 rounded-md">Dashboard</Link>
+                        <Link to="/budgets" className="hover:bg-gray-200 px-3 py-1 rounded-md">Budgets</Link>
                         {Object.entries(menuItems).map(([menu, subItems]) => (
                             <div key={menu} className="relative">
-                                <button onClick={() => handleToggle(menu)} className="hover:text-primary">
+                                <button onClick={() => handleToggle(menu)} className="hover:bg-gray-200 px-3 py-1 rounded-md">
                                     {menu}
                                 </button>
                                 {openDropdown === menu && (
