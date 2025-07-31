@@ -20,18 +20,6 @@ export const getPurchasesData = async () => {
     ];
 };
 
-export const getBankData = async () => {
-    return [
-        { name: "Chase" },
-        { name: "Bank of America" },
-        { name: "American Express" },
-        { name: "Wells Fargo" },
-        { name: "Mercury" },
-        { name: "Capital One" },
-        { name: "PayPal" },
-    ];
-};
-
 export const getTaxSettings = async () => {
     return {
         selected: "set-periods",
@@ -41,11 +29,4 @@ export const getTaxSettings = async () => {
             { id: "review-card", label: "Review Card of Account" },
         ],
     };
-};
-
-export const getMiscOps = async () => {
-    return [
-        { id: 1, title: "Upload Expense Report", date: "2024-05-02" },
-        { id: 2, title: "Submit Tax Return", date: "2024-05-06" },
-    ];
 };

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import {
+    LuChevronDown,
     LuChevronLeft,
     LuChevronRight,
     LuClock,
     LuCog,
+    LuFilter,
     LuMenu,
     LuMessagesSquare,
     LuSearch,
@@ -75,11 +77,40 @@ const menuItems = {
         ]
     }
 };
+const departments = [
+    "Accountant",
+    "Sale",
+    "Finance",
+    "Customer Service",
+    "All Department",
+];
 
 const NavbarComponentAC = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [search, setSearch] = useState("");
     const { company } = useAuth();
     const [openDropdown, setOpenDropdown] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage] = React.useState(10);
+    const totalCount = 10;
+
+    const handlePrev = () => {
+        if (page > 0) setPage(page - 1);
+    };
+
+    const handleNext = () => {
+        if ((page + 1) * rowsPerPage < totalCount) {
+            setPage(page + 1);
+        }
+    };
+
+    const from = page * rowsPerPage + 1;
+    const to = Math.min((page + 1) * rowsPerPage, totalCount);
+
+    const filtered = departments.filter((d) =>
+        d.toLowerCase().includes(search.toLowerCase())
+    );
 
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
@@ -249,25 +280,79 @@ const NavbarComponentAC = () => {
 
             <section className="bg-white border-b border-gray-200 px-6 py-3">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                        <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90">New</button>
+                    <div className="flex items-center space-x-2">
+                        <button className="bg-primary px-3 py-1.5 text-sm rounded-md text-white hover:bg-primary/90">New</button>
                         <span className="text-gray-900">Dashboard</span>
                         <button>
                             <LuSettings className="w-4 h-4" />
                         </button>
                     </div>
-                    <div className="relative">
-                        <LuSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm" />
+                    {/* Search Input Toggle */}
+                    <div
+                        className="hidden md:flex w-80 lg:w-96 items-center justify-end border border-gray-300 rounded-md px-3 h-8 cursor-pointer bg-white"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        <LuSearch className="text-gray-400 text-sm mr-2" />
                         <input
                             type="text"
                             placeholder="Search"
-                            className="pl-8 pr-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="flex-grow outline-none text-sm"
                         />
+
+                        <Divider orientation="vertical" variant="middle" flexItem />
+                        <LuChevronDown className="text-gray-400 text-xs ml-2 h-4 w-4 " />
                     </div>
-                    <div className="flex items-center space-x-2 text-sm text-gray-600">
-                        <span>1-2 / 2</span>
-                        <button><LuChevronLeft className="w-4 h-4" /></button>
-                        <button><LuChevronRight className="w-4 h-4" /></button>
+
+                    {/* Dropdown List */}
+                    {isOpen && (
+                        <section className="absolute -mx-3 w-full top-24 lg:top-28">
+                            <div className="w-80 lg:w-96 mt-1 xl:mt-0 bg-white border items-center justify-center m-auto border-gray-200 rounded-md shadow-lg z-10">
+                                {/* Header */}
+                                <div className="px-4 py-2 text-gray-600 font-semibold text-sm border-b border-gray-200 flex items-center gap-2">
+                                    <LuFilter className="text-gray-400 text-sm" />
+                                    Filter
+                                </div>
+
+                                {/* Filtered Items */}
+                                {filtered.length > 0 ? (
+                                    filtered.map((dept, i) => (
+                                        <div
+                                            key={i}
+                                            className="px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 cursor-pointer"
+                                            onClick={() => {
+                                                setSearch(dept);
+                                                setIsOpen(false);
+                                            }}
+                                        >
+                                            {dept}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="px-4 py-2 text-sm text-gray-400">No results</div>
+                                )}
+                            </div>
+                        </section>
+                    )}
+                    <div className="flex items-center justify-between p-2 text-sm text-gray-700">
+                        <div>{from} - {to} / {totalCount}</div>
+                        <div className="flex gap-0.5 ml-2">
+                            <button
+                                onClick={handlePrev}
+                                className="bg-gray-100 p-1 rounded-sm disabled:opacity-50"
+                                disabled={page === 0}
+                            >
+                                <LuChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                className="bg-gray-100 p-1 rounded-sm disabled:opacity-50"
+                                disabled={(page + 1) * rowsPerPage >= totalCount}
+                            >
+                                <LuChevronRight className="w-4 h-4" />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>

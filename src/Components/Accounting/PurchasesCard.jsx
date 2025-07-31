@@ -24,12 +24,12 @@ const PurchasesCard = () => {
     // Custom Tooltip Component
 
     return (
-        <section className="shadow-md rounded-md border-l-4 border-purple-600">
+        <section className="shadow-md rounded-md border-l-4 flex flex-col text-sm justify-between border border-l-purple-600">
             <section className="grid grid-cols-2 justify-between p-4">
-                <div className="flex flex-col items-start gap-2">
-                    <p>Purchases</p>
-                    <p >Purchases@tt-erp.odoo.com</p>
-                    <div className="flex gap-2">
+                <div className="flex flex-col items-start">
+                    <p className="font-medium text-primary">Purchases</p>
+                    <p className="text-gray-600">Purchases@tt-erp.odoo.com</p>
+                    <div className="flex gap-2 mt-2">
                         <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90" >Upload</button>
                         <button className="bg-gray-300 px-3 py-1.5 rounded-md text-black hover:bg-gray-200" >New</button>
                     </div>
