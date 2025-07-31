@@ -23,7 +23,7 @@ const TaxReturnCard = () => {
             <section className="space-y-2 mt-3">
                 {taxOptions.map((step) => (
                     <div key={step.id} className="flex items-center space-x-2 cursor-pointer" onClick={() => setSelectedId(step.id)}>
-                        <div className={`w-3 h-3 rounded-full border-2 ${selectedId === step.id ? "bg-primary border-primary" : "bg-white border-gray-300"}`}></div>
+                        <div className={`w-4 h-4 rounded-full border-2 ${selectedId === step.id ? "bg-primary border-primary" : "bg-white border-gray-300"}`}></div>
                         <span className={`text-sm ${selectedId === step.id ? "text-primary font-medium" : "text-gray-600"}`}> {step.label} </span>
                     </div>
                 ))}

@@ -192,14 +192,14 @@ const NavbarComponentAC = () => {
 
     return (
         <header className="bg-white shadow-sm sticky top-0 z-50">
-            <section className="flex items-center pl-5 justify-between p-2 border-b border-gray-200">
+            <section className="flex items-center pl-5 justify-between p-2 px-5 border-b border-gray-200">
                 <div className="flex items-center gap-4">
                     <button onClick={toggleDrawer(true)} className="lg:hidden text-xl">
                         <LuMenu />
                     </button>
 
                     <Link to="/home" className="flex gap-2 items-center group cursor-pointer">
-                        <img src={accountingImg} alt="Logo" className="w-5 h-5 group-hover:hidden" />
+                        <img src={accountingImg} alt="Logo" className="w-10 h-5 px-2 group-hover:hidden" />
                         <LuChevronLeft className="w-4 h-4 hidden group-hover:block" />
                         <span className="text-sm font-semibold hover:text-gray-600">Accounting</span>
                     </Link>
@@ -278,7 +278,7 @@ const NavbarComponentAC = () => {
                 {DrawerContent}
             </Drawer>
 
-            <section className="bg-white border-b border-gray-200 px-6 py-3">
+            <section className="bg-white border-b border-gray-200 px-5 py-3">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                         <button className="bg-primary px-3 py-1.5 text-sm rounded-md text-white hover:bg-primary/90">New</button>
@@ -307,7 +307,7 @@ const NavbarComponentAC = () => {
 
                     {/* Dropdown List */}
                     {isOpen && (
-                        <section className="absolute -mx-3 w-full top-24 lg:top-28">
+                        <section className="absolute w-full top-24 lg:top-28">
                             <div className="w-80 lg:w-96 mt-1 xl:mt-0 bg-white border items-center justify-center m-auto border-gray-200 rounded-md shadow-lg z-10">
                                 {/* Header */}
                                 <div className="px-4 py-2 text-gray-600 font-semibold text-sm border-b border-gray-200 flex items-center gap-2">
@@ -335,7 +335,7 @@ const NavbarComponentAC = () => {
                             </div>
                         </section>
                     )}
-                    <div className="flex items-center justify-between p-2 text-sm text-gray-700">
+                    <div className="flex items-center justify-between text-sm text-gray-700">
                         <div>{from} - {to} / {totalCount}</div>
                         <div className="flex gap-0.5 ml-2">
                             <button

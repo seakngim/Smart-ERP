@@ -8,10 +8,10 @@ import TaxReturnCard from './TaxReturnCard';
 
 const DashboardAccounting = () => {
     return (
-        <main className=''>
+        <main>
             <NavbarComponentAC />
             {/* Main Content */}
-            <section className="p-6 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
+            <section className="px-5 pt-4 grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
                 <SalesCard />
                 <PurchasesCard />
                 <BankCard />
