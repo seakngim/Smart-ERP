@@ -12,7 +12,7 @@ import {
     LuSettings
 } from 'react-icons/lu';
 import accountingImg from "../../assets/accounting.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from '../../context/AuthContext';
 import {
     Box,
@@ -77,13 +77,8 @@ const menuItems = {
         ]
     }
 };
-const departments = [
-    "Accountant",
-    "Sale",
-    "Finance",
-    "Customer Service",
-    "All Department",
-];
+
+const departments = ["Accountant", "Sale", "Finance", "Customer Service", "All Department"];
 
 const NavbarComponentAC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -91,9 +86,55 @@ const NavbarComponentAC = () => {
     const { company } = useAuth();
     const [openDropdown, setOpenDropdown] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage] = useState(10);
     const totalCount = 10;
+
+    const location = useLocation();
+    const pathname = location.pathname.toLowerCase();
+
+    const getCurrentMenuTitle = () => {
+        const flattenMenu = (menu) => {
+            const result = [];
+
+            Object.entries(menu).forEach(([key, value]) => {
+                if (Array.isArray(value)) {
+                    value.forEach((subItem) => {
+                        result.push({
+                            path: `/${key.toLowerCase()}/${subItem.toLowerCase().replace(/\s+/g, "-")}`,
+                            label: subItem
+                        });
+                    });
+                } else if (typeof value === "object") {
+                    Object.entries(value).forEach(([group, items]) => {
+                        if (group === "Settings") {
+                            result.push({
+                                path: `/${key.toLowerCase()}/setting`,
+                                label: "Settings"
+                            });
+                        } else {
+                            items.forEach((item) => {
+                                result.push({
+                                    path: `/${key.toLowerCase()}/${item.toLowerCase().replace(/\s+/g, "-")}`,
+                                    label: item
+                                });
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Add top-level routes
+            result.push({ path: "/dashboard-accounting", label: "Dashboard" });
+            result.push({ path: "/budgets", label: "Budgets" });
+
+            return result;
+        };
+
+        const allMenus = flattenMenu(menuItems);
+        const match = allMenus.find(({ path }) => pathname.startsWith(path));
+        return match ? match.label : "Dashboard";
+    };
 
     const handlePrev = () => {
         if (page > 0) setPage(page - 1);
@@ -280,14 +321,15 @@ const NavbarComponentAC = () => {
 
             <section className="bg-white border-b border-gray-200 px-5 py-3">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                        <button className="bg-primary px-3 py-1.5 text-sm rounded-md text-white hover:bg-primary/90">New</button>
-                        <span className="text-gray-900">Dashboard</span>
+                    <div className="flex items-center space-x-2 text-sm">
+                        <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90">New</button>
+                        <button className="bg-gray-200 text-black px-3 py-1.5 rounded-md hover:bg-gray-300">Overview</button>
+                        <span className="text-gray-900">{getCurrentMenuTitle()}</span>
                         <button>
                             <LuSettings className="w-4 h-4" />
                         </button>
                     </div>
-                    {/* Search Input Toggle */}
+
                     <div
                         className="hidden md:flex w-80 lg:w-96 items-center justify-end border border-gray-300 rounded-md px-3 h-8 cursor-pointer bg-white"
                         onClick={() => setIsOpen(!isOpen)}
@@ -305,17 +347,14 @@ const NavbarComponentAC = () => {
                         <LuChevronDown className="text-gray-400 text-xs ml-2 h-4 w-4 " />
                     </div>
 
-                    {/* Dropdown List */}
                     {isOpen && (
                         <section className="absolute w-full top-24 lg:top-28">
                             <div className="w-80 lg:w-96 mt-1 xl:mt-0 bg-white border items-center justify-center m-auto border-gray-200 rounded-md shadow-lg z-10">
-                                {/* Header */}
                                 <div className="px-4 py-2 text-gray-600 font-semibold text-sm border-b border-gray-200 flex items-center gap-2">
                                     <LuFilter className="text-gray-400 text-sm" />
                                     Filter
                                 </div>
 
-                                {/* Filtered Items */}
                                 {filtered.length > 0 ? (
                                     filtered.map((dept, i) => (
                                         <div
@@ -335,6 +374,7 @@ const NavbarComponentAC = () => {
                             </div>
                         </section>
                     )}
+
                     <div className="flex items-center justify-between text-sm text-gray-700">
                         <div>{from} - {to} / {totalCount}</div>
                         <div className="flex gap-0.5 ml-2">
