@@ -9,7 +9,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function BudgetEditDialog({ open, onClose, data, onSave }) {
+export default function BudgetEditDialog({ open, onClose, data }) {
     const [formData, setFormData] = useState({
         name: '', type: '', cost: '', startdate: '',
         enddate: '', department: '', status: '', company: '', note: ''
@@ -34,11 +34,6 @@ export default function BudgetEditDialog({ open, onClose, data, onSave }) {
 
     const handleChange = (field) => (e) => {
         setFormData({ ...formData, [field]: e.target.value });
-    };
-
-    const handleSave = () => {
-        onSave(formData);
-        onClose();
     };
 
     const renderLabel = (text) => (
@@ -187,14 +182,6 @@ export default function BudgetEditDialog({ open, onClose, data, onSave }) {
                         disableElevation
                     >
                         Close
-                    </Button>
-                    <Button
-                        onClick={handleSave}
-                        variant="contained"
-                        className="!bg-primary !text-white px-3 py-1.5 text-sm rounded-md hover:!bg-primary/90 !normal-case"
-                        disableElevation
-                    >
-                        Edit
                     </Button>
                 </section>
             </DialogActions>
