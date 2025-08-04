@@ -19,12 +19,40 @@ const TaxReturnCard = () => {
     return (
         <section className="shadow-md rounded-md border text-sm p-4">
             <p className="mb-2 font-medium text-primary">Point of Sale</p>
-            <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90">Tax Returns</button>
-            <section className="space-y-2 mt-3">
+            <button
+                type="button"
+                className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/70"
+                aria-label="Submit Tax Returns"
+            >
+                Tax Returns
+            </button>
+
+            <section className="space-y-2 mt-3" role="radiogroup" aria-label="Tax Options">
                 {taxOptions.map((step) => (
-                    <div key={step.id} className="flex items-center space-x-2 cursor-pointer" onClick={() => setSelectedId(step.id)}>
-                        <div className={`w-4 h-4 rounded-full border-2 ${selectedId === step.id ? "bg-primary border-primary" : "bg-white border-gray-300"}`}></div>
-                        <span className={`text-sm ${selectedId === step.id ? "text-primary font-medium" : "text-gray-600"}`}> {step.label} </span>
+                    <div
+                        key={step.id}
+                        className="flex items-center space-x-2 cursor-pointer focus:outline-none"
+                        role="radio"
+                        aria-checked={selectedId === step.id}
+                        tabIndex={0}
+                        onClick={() => setSelectedId(step.id)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                setSelectedId(step.id);
+                            }
+                        }}
+                    >
+                        <div
+                            className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${selectedId === step.id ? 'bg-primary border-primary' : 'bg-white border-gray-300'
+                                }`}
+                        ></div>
+                        <span
+                            className={`text-sm ${selectedId === step.id ? 'text-primary font-medium' : 'text-gray-600'
+                                }`}
+                        >
+                            {step.label}
+                        </span>
                     </div>
                 ))}
             </section>

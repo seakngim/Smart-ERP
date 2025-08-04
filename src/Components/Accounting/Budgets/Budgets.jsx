@@ -1,6 +1,6 @@
 import React from "react";
 import EnhancedTable from "./EnhancedTable";
-import NavbarComponentBudget from "./NavbarComponent";
+import NavbarComponentBudget from "./NavbarComponentBudget";
 
 const Budgets = () => {
     return (

@@ -6,6 +6,7 @@ import ForgotPasswordForm from './Components/ForgotPasswordForm';
 import SignupForm from './Components/SignupForm';
 import DashboardAccounting from './Components/Accounting/Dashboard';
 import Budgets from './Components/Accounting/Budgets/Budgets';
+import Overview from './Components/Accounting/Budgets/Overview';
 
 const App = () => {
 
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard-accounting" element={<DashboardAccounting />} />
         <Route path="/budgets" element={<Budgets />} />
+        <Route path="/Overview" element={<Overview />} />
       </Routes>
     </BrowserRouter>
   )

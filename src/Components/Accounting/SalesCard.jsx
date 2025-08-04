@@ -28,19 +28,33 @@ const SalesCard = () => {
             <section className="grid grid-cols-2 justify-between p-4">
                 <div>
                     <p className="mb-2 font-medium text-primary">Sales</p>
-                    <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90" >New</button>
+                    <button
+                        className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                        aria-label="Create new sale"
+                    >
+                        New
+                    </button>
                 </div>
-                <div className="mt-8">
-                    <p className="flex justify-between"><span className='text-primary'>4 To Validate</span>$24,003.45</p>
-                    <p className="flex justify-between"><span className='text-primary'>20 Unpaid</span>$323,725.82</p>
-                    <p className="flex justify-between"><span className='text-primary'>18 Late</span>$6,066.07</p>
+                <div className="mt-8 space-y-1">
+                    <p className="flex justify-between items-center">
+                        <span className="text-primary">4 To Validate</span>
+                        <strong>$24,003.45</strong>
+                    </p>
+                    <p className="flex justify-between items-center">
+                        <span className="text-primary">20 Unpaid</span>
+                        <strong>$323,725.82</strong>
+                    </p>
+                    <p className="flex justify-between items-center">
+                        <span className="text-primary">18 Late</span>
+                        <strong>$6,066.07</strong>
+                    </p>
                 </div>
             </section>
-            <ResponsiveContainer border="1px" width="100%" height={150}>
+
+            <ResponsiveContainer width="100%" height={150}>
                 <BarChart data={salesData}>
                     <XAxis dataKey="date" />
                     <Tooltip content={<CustomTooltip />} />
-                    {/* <YAxis /> */}
                     <Bar dataKey="value" fill="#F1F9FE" />
                 </BarChart>
             </ResponsiveContainer>

@@ -11,9 +11,8 @@ import {
     LuSearch,
     LuSettings
 } from 'react-icons/lu';
-import accountingImg from "../../assets/accounting.png";
+import accountingImg from "../../../assets/accounting.png";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from '../../context/AuthContext';
 import {
     Box,
     Drawer,
@@ -28,6 +27,8 @@ import {
     Divider,
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useAuth } from "../../../context/AuthContext";
+import BudgetCreateDialog from "./BudgetCreateDialog";
 
 const menuItems = {
     Customer: ["Invoices", "Credit Notes", "Payment", "Product", "Customer"],
@@ -80,7 +81,8 @@ const menuItems = {
 
 const departments = ["Accountant", "Sale", "Finance", "Customer Service", "All Department"];
 
-const NavbarComponentAC = () => {
+const NavbarComponentBudget = () => {
+    const [open, setOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
     const { company } = useAuth();
@@ -93,6 +95,10 @@ const NavbarComponentAC = () => {
     const location = useLocation();
     const pathname = location.pathname.toLowerCase();
 
+    const handleCreate = (formData) => {
+        console.log('Create new budget:', formData);
+        // call your API or update state here
+    };
     const getCurrentMenuTitle = () => {
         const flattenMenu = (menu) => {
             const result = [];
@@ -322,9 +328,8 @@ const NavbarComponentAC = () => {
             <section className="bg-white border-b border-gray-200 px-5 py-3">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-sm">
-                        <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90">
-                            New
-                        </button>
+                        <button onClick={() => setOpen(true)} className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90">New</button>
+                        <Link to="/Overview" className="bg-gray-200 text-black px-3 py-1.5 rounded-md hover:bg-gray-300">Overview</Link>
                         <span className="text-gray-900">{getCurrentMenuTitle()}</span>
                         <button aria-label="Settings">
                             <LuSettings className="w-4 h-4" />
@@ -401,8 +406,13 @@ const NavbarComponentAC = () => {
                     </div>
                 </div>
             </section>
+            <BudgetCreateDialog
+                open={open}
+                onClose={() => setOpen(false)}
+                onSave={handleCreate}
+            />
         </header>
     );
 };
 
-export default NavbarComponentAC;
+export default NavbarComponentBudget;

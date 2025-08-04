@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAuth } from "../../../context/AuthContext";
+import BudgetCreateDialog from "./BudgetCreateDialog";
 
 const menuItems = {
     Customer: ["Invoices", "Credit Notes", "Payment", "Product", "Customer"],
@@ -80,7 +81,8 @@ const menuItems = {
 
 const departments = ["Accountant", "Sale", "Finance", "Customer Service", "All Department"];
 
-const NavbarComponentBudget = () => {
+const NavbarComponentOverview = () => {
+    const [open, setOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
     const { company } = useAuth();
@@ -93,6 +95,10 @@ const NavbarComponentBudget = () => {
     const location = useLocation();
     const pathname = location.pathname.toLowerCase();
 
+    const handleCreate = (formData) => {
+        console.log('Create new budget:', formData);
+        // call your API or update state here
+    };
     const getCurrentMenuTitle = () => {
         const flattenMenu = (menu) => {
             const result = [];
@@ -240,7 +246,7 @@ const NavbarComponentBudget = () => {
                     </button>
 
                     <Link to="/home" className="flex gap-2 items-center group cursor-pointer">
-                        <img src={accountingImg} alt="Logo" className="w-10 h-5 px-2 group-hover:hidden" />
+                        <img src={accountingImg} alt="Logo" className="w-10 aspect-[1.075] object-contain px-2 group-hover:hidden" />
                         <LuChevronLeft className="w-4 h-4 hidden group-hover:block" />
                         <span className="text-sm font-semibold hover:text-gray-600">Accounting</span>
                     </Link>
@@ -320,78 +326,58 @@ const NavbarComponentBudget = () => {
             </Drawer>
 
             <section className="bg-white border-b border-gray-200 px-5 py-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center">
                     <div className="flex items-center space-x-2 text-sm">
-                        <button className="bg-primary px-3 py-1.5 rounded-md text-white hover:bg-primary/90">New</button>
-                        <button className="bg-gray-200 text-black px-3 py-1.5 rounded-md hover:bg-gray-300">Overview</button>
                         <span className="text-gray-900">{getCurrentMenuTitle()}</span>
-                        <button>
+                        <button aria-label="Settings">
                             <LuSettings className="w-4 h-4" />
                         </button>
                     </div>
 
-                    <div
-                        className="hidden md:flex w-80 lg:w-96 items-center justify-end border border-gray-300 rounded-md px-3 h-8 cursor-pointer bg-white"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        <LuSearch className="text-gray-400 text-sm mr-2" />
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="flex-grow outline-none text-sm"
-                        />
+                    <div className="flex mx-auto justify-between items-center">
+                        <div
+                            className="relative hidden md:flex w-80 lg:w-96 items-center justify-end border border-gray-300 rounded-md px-3 h-8 cursor-pointer bg-white"
+                            onClick={() => setIsOpen(!isOpen)}
+                        >
+                            <LuSearch className="text-gray-400 text-sm mr-2" />
+                            <input
+                                type="text"
+                                placeholder="Search"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="flex-grow outline-none text-sm"
+                            />
 
-                        <Divider orientation="vertical" variant="middle" flexItem />
-                        <LuChevronDown className="text-gray-400 text-xs ml-2 h-4 w-4 " />
-                    </div>
+                            <Divider orientation="vertical" variant="middle" flexItem />
+                            <LuChevronDown className="text-gray-400 text-xs ml-2 h-4 w-4" />
 
-                    {isOpen && (
-                        <section className="absolute w-full top-24 pl-16 lg:top-28">
-                            <div className="w-80 lg:w-96 mt-1 lg:mt-7 xl:mt-0 bg-white border items-center justify-center m-auto border-gray-200 rounded-md shadow-lg z-10">
-                                <div className="px-4 py-2 text-gray-600 font-semibold text-sm border-b border-gray-200 flex items-center gap-2">
-                                    <LuFilter className="text-gray-400 text-sm" />
-                                    Filter
-                                </div>
-
-                                {filtered.length > 0 ? (
-                                    filtered.map((dept, i) => (
-                                        <div
-                                            key={i}
-                                            className="px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 cursor-pointer"
-                                            onClick={() => {
-                                                setSearch(dept);
-                                                setIsOpen(false);
-                                            }}
-                                        >
-                                            {dept}
+                            {isOpen && (
+                                <section className="absolute w-full top-8 pl-3">
+                                    <div className="w-80 lg:w-96 mt-1 xl:mt-0 bg-white border items-center justify-center m-auto border-gray-200 rounded-md shadow-lg z-10">
+                                        <div className="px-4 py-2 text-gray-600 font-semibold text-sm border-b border-gray-200 flex items-center gap-2">
+                                            <LuFilter className="text-gray-400 text-sm" />
+                                            Filter
                                         </div>
-                                    ))
-                                ) : (
-                                    <div className="px-4 py-2 text-sm text-gray-400">No results</div>
-                                )}
-                            </div>
-                        </section>
-                    )}
 
-                    <div className="flex items-center justify-between text-sm text-gray-700">
-                        <div>{from} - {to} / {totalCount}</div>
-                        <div className="flex gap-0.5 ml-2">
-                            <button
-                                onClick={handlePrev}
-                                className="bg-gray-100 p-1 rounded-sm disabled:opacity-50"
-                                disabled={page === 0}
-                            >
-                                <LuChevronLeft className="w-4 h-4" />
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                className="bg-gray-100 p-1 rounded-sm disabled:opacity-50"
-                                disabled={(page + 1) * rowsPerPage >= totalCount}
-                            >
-                                <LuChevronRight className="w-4 h-4" />
-                            </button>
+                                        {filtered.length > 0 ? (
+                                            filtered.map((dept, i) => (
+                                                <div
+                                                    key={i}
+                                                    className="px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 cursor-pointer"
+                                                    onClick={() => {
+                                                        setSearch(dept);
+                                                        setIsOpen(false);
+                                                    }}
+                                                >
+                                                    {dept}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="px-4 py-2 text-sm text-gray-400">No results</div>
+                                        )}
+                                    </div>
+                                </section>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -400,4 +386,4 @@ const NavbarComponentBudget = () => {
     );
 };
 
-export default NavbarComponentBudget;
+export default NavbarComponentOverview;
