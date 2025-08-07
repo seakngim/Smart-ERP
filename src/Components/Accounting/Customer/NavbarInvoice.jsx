@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import {
-    LuChevronDown,
     LuChevronLeft,
+    LuChevronRight,
     LuClock,
     LuCog,
-    LuFilter,
     LuMenu,
     LuMessagesSquare,
-    LuSearch,
-    LuSettings
+    LuSave,
+    LuSettings,
+    LuX
 } from 'react-icons/lu';
 import accountingImg from "../../../assets/accounting.png";
 import { Link, useLocation } from "react-router-dom";
@@ -31,9 +31,7 @@ import menuItems from "../menuItems";
 
 const departments = ["Accountant", "Sale", "Finance", "Customer Service", "All Department"];
 
-const NavbarComponentOverview = () => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [search, setSearch] = useState("");
+const NavbarInvoice = () => {
     const { company } = useAuth();
     const [openDropdown, setOpenDropdown] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -86,10 +84,19 @@ const NavbarComponentOverview = () => {
         const match = allMenus.find(({ path }) => pathname.startsWith(path));
         return match ? match.label : "Dashboard";
     };
-    
-    const filtered = departments.filter((d) =>
-        d.toLowerCase().includes(search.toLowerCase())
-    );
+
+    const handlePrev = () => {
+        if (page > 0) setPage(page - 1);
+    };
+
+    const handleNext = () => {
+        if ((page + 1) * rowsPerPage < totalCount) {
+            setPage(page + 1);
+        }
+    };
+
+    const from = page * rowsPerPage + 1;
+    const to = Math.min((page + 1) * rowsPerPage, totalCount);
 
     const toggleDrawer = (open) => () => {
         setDrawerOpen(open);
@@ -258,58 +265,45 @@ const NavbarComponentOverview = () => {
             </Drawer>
 
             <section className="bg-white border-b border-gray-200 px-5 py-3">
-                <div className="flex items-center">
+                <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-sm">
-                        <span className="text-gray-900">{getCurrentMenuTitle()}</span>
-                        <button aria-label="Settings">
-                            <LuSettings className="w-4 h-4" />
+                        <button className="border border-primary px-3 py-1.5 rounded-md text-primary hover:text-white hover:bg-primary/90">New</button>
+                        <div className="flex flex-col items-start">
+                            <span className="text-primary">{getCurrentMenuTitle()}</span>
+                            <span className="text-gray-900">Draft Invoices</span>
+                        </div>
+                        <button aria-label="Settings" className="mt-4">
+                            <LuSettings className="w-4 h-4 text-gray-600" />
                         </button>
+                        <button className="mt-4 text-gray-600 pl-2 hover:text-primary">
+                            <LuSave className="w-4 h-4" />
+                        </button>
+                        <Link to={"/customer/invoices"} className="mt-4 text-gray-600 hover:text-danger">
+                            <LuX className="w-4 h-4" />
+                        </Link>
                     </div>
 
-                    <div className="flex mx-auto justify-between items-center">
-                        <div
-                            className="relative hidden md:flex w-80 lg:w-96 items-center justify-end border border-gray-300 rounded-md px-3 h-8 cursor-pointer bg-white"
-                            onClick={() => setIsOpen(!isOpen)}
-                        >
-                            <LuSearch className="text-gray-400 text-sm mr-2" />
-                            <input
-                                type="text"
-                                placeholder="Search"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="flex-grow outline-none text-sm"
-                            />
-
-                            <Divider orientation="vertical" variant="middle" flexItem />
-                            <LuChevronDown className="text-gray-400 text-xs ml-2 h-4 w-4" />
-
-                            {isOpen && (
-                                <section className="absolute w-full top-8 pl-3">
-                                    <div className="w-80 lg:w-96 mt-1 xl:mt-0 bg-white border items-center justify-center m-auto border-gray-200 rounded-md shadow-lg z-10">
-                                        <div className="px-4 py-2 text-gray-600 font-semibold text-sm border-b border-gray-200 flex items-center gap-2">
-                                            <LuFilter className="text-gray-400 text-sm" />
-                                            Filter
-                                        </div>
-
-                                        {filtered.length > 0 ? (
-                                            filtered.map((dept, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="px-4 py-2 hover:bg-gray-100 text-sm text-gray-700 cursor-pointer"
-                                                    onClick={() => {
-                                                        setSearch(dept);
-                                                        setIsOpen(false);
-                                                    }}
-                                                >
-                                                    {dept}
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div className="px-4 py-2 text-sm text-gray-400">No results</div>
-                                        )}
-                                    </div>
-                                </section>
-                            )}
+                    <div className="flex items-center justify-between text-sm text-gray-700">
+                        <div>
+                            {from} - {to} / {totalCount}
+                        </div>
+                        <div className="flex gap-0.5 ml-2">
+                            <button
+                                onClick={handlePrev}
+                                className="bg-gray-100 p-1 rounded-sm disabled:opacity-50"
+                                disabled={page === 0}
+                                aria-label="Previous page"
+                            >
+                                <LuChevronLeft className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={handleNext}
+                                className="bg-gray-100 p-1 rounded-sm disabled:opacity-50"
+                                disabled={(page + 1) * rowsPerPage >= totalCount}
+                                aria-label="Next page"
+                            >
+                                <LuChevronRight className="w-4 h-4" />
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -318,4 +312,4 @@ const NavbarComponentOverview = () => {
     );
 };
 
-export default NavbarComponentOverview;
+export default NavbarInvoice;

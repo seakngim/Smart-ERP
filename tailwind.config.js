@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         primary: '#1FA8E0',
+        danger: '#EA4951',
         whitesmoke: '#F6F7F9',
       },
     },

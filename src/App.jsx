@@ -7,6 +7,8 @@ import SignupForm from './Components/SignupForm';
 import DashboardAccounting from './Components/Accounting/Dashboard';
 import Budgets from './Components/Accounting/Budgets/Budgets';
 import Overview from './Components/Accounting/Budgets/Overview';
+import Customer from './Components/Accounting/Customer/Customer';
+import Invoice from './Components/Accounting/Customer/Invoice';
 
 const App = () => {
 
@@ -20,6 +22,8 @@ const App = () => {
         <Route path="/dashboard-accounting" element={<DashboardAccounting />} />
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/Overview" element={<Overview />} />
+        <Route path="/customer/invoices" element={<Customer />} />
+        <Route path="/customer/invoices/new" element={<Invoice />} />
       </Routes>
     </BrowserRouter>
   )
